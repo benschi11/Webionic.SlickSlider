@@ -1,0 +1,10 @@
+[
+  {
+    "inputs": [ "Assets/slick/slick.less", "Assets/slick/slick-theme.less" ],
+    "output": "Styles/slick.css"
+  },
+      {
+        "inputs": [ "Assets/slick/slick.js"],
+      "output": "Scripts/slick.js"
+    }
+]

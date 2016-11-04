@@ -1,0 +1,62 @@
+﻿@using Orchard.ContentManagement
+@using Orchard.DisplayManagement.Shapes
+@using Orchard.Layouts.Helpers
+@using Orchard.MediaLibrary.Models
+@{
+    var viewModel = Model.ViewModel;
+    Style.Require("SlickSlider");
+    Script.Require("SlickSlider");
+
+    var id = viewModel.SliderId;
+    var images = viewModel.ContentItems;
+
+
+    var navFor = string.IsNullOrEmpty(viewModel.Config.SyncedSliderId) ? "" : "#" + viewModel.Config.SyncedSliderId;
+
+    var wrapperTagBuilder = TagBuilderExtensions.AddCommonElementAttributes(new OrchardTagBuilder("div"), Model);
+    wrapperTagBuilder.Attributes["id"] = id;
+}
+
+
+@wrapperTagBuilder.StartElement
+    @foreach (var img in images)
+    {
+        var tagBuilder = new OrchardTagBuilder("img");
+        var imagePart = (ImagePart)img.ImagePart;
+        var mediaPart = imagePart != null ? imagePart.As<MediaPart>
+            () : default(MediaPart);
+        var url = mediaPart != null ? mediaPart.MediaUrl : default(string);
+        tagBuilder.Attributes["class"] = "img-responsive";
+
+        if (mediaPart != null)
+        {
+            tagBuilder.Attributes["src"] = url;
+            tagBuilder.Attributes["alt"] = mediaPart.AlternateText;
+        }
+        else
+        {
+            tagBuilder.Attributes["alt"] = T("Image not found").Text;
+        }
+
+        <div>
+            @tagBuilder.ToHtmlString(TagRenderMode.SelfClosing)
+        </div>
+    }
+@wrapperTagBuilder.EndElement
+
+@using (Script.Foot())
+{
+<script type="text/javascript">
+    $(function() {
+        $("#@id").slick({
+            slidesToShow: @viewModel.Config.SlidesToShow,
+            slidesToScroll: @viewModel.Config.SlidesToScroll,
+            asNavFor: '@navFor',
+            dots: @Json.Encode(viewModel.Config.Dots),
+            focusOnSelect: @Json.Encode(viewModel.Config.FocusOnSelect),
+            adpativeHeight: @Json.Encode(viewModel.Config.AdaptiveHeight),
+            arrows: @Json.Encode(viewModel.Config.Arrows),
+        });
+    });
+</script>
+}

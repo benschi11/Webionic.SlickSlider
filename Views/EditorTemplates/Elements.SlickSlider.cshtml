@@ -1,0 +1,54 @@
+﻿@model Webionic.SlickGalleryElement.ViewModels.SlickSliderEditorViewModel
+<fieldset>
+    <div>
+        @Display.MediaLibraryPicker(
+            Required: false,
+            Multiple: true,
+            DisplayName: T("Image").Text,
+            FieldName: Html.FieldNameFor(m => m.ContentItemIds),
+            ContentItems: Model.ContentItems,
+            Hint: "",
+            PromptOnNavigate: false,
+            ShowSaveWarning: false)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.SliderId, T("Slider ID"))
+        @Html.TextBoxFor(m => m.SliderId, new { @class = "text medium" })
+        <span class="hint">@T("The HTML ID for the slider. Please don't use a id twice.")</span>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Config.SyncedSliderId)
+        @Html.TextBoxFor(m => m.Config.SyncedSliderId, new { @class = "text medium" })
+        <span class="hint">@T("The HTML ID for the synced slider.")</span>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Config.SlidesToScroll)
+        @Html.TextBoxFor(m => m.Config.SlidesToScroll, new { @class = "text medium" })
+        <span class="hint">@T("How many slides are scrolled per swipe/click.")</span>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Config.SlidesToShow)
+        @Html.TextBoxFor(m => m.Config.SlidesToShow, new { @class = "text medium" })
+        <span class="hint">@T("The count how many slides are displayed at once.")</span>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Config.Dots)
+        @Html.CheckBoxFor(m => m.Config.Dots, new { @class = "text medium" })
+        <span class="hint">@T("Check if dots should be visible")</span>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Config.FocusOnSelect)
+        @Html.CheckBoxFor(m => m.Config.FocusOnSelect, new { @class = "text medium" })
+        <span class="hint">@T("Enable FocusOnSelect")</span>
+    </div>    
+    <div class="form-group">
+        @Html.LabelFor(m => m.Config.AdaptiveHeight)
+        @Html.CheckBoxFor(m => m.Config.AdaptiveHeight, new { @class = "text medium" })
+        <span class="hint">@T("Enables adaptive height.")</span>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Config.Arrows)
+        @Html.CheckBoxFor(m => m.Config.Arrows, new { @class = "text medium" })
+        <span class="hint">@T("Enables/Disables Arrows.")</span>
+    </div>
+</fieldset>

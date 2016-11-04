@@ -1,0 +1,38 @@
+﻿@using Orchard.ContentManagement
+@using Orchard.DisplayManagement.Shapes
+@using Orchard.MediaLibrary.Models
+@{
+    var model = Model.ViewModel;
+    Style.Require("SlickSlider");
+    Script.Require("SlickSlider");
+
+    var id = model.SliderId;
+    var images = model.ContentItems;
+}
+
+
+<div id="@id">
+    @{
+        if (images.Length > 0) {
+            var img = images[0];
+            var tagBuilder = new OrchardTagBuilder("img");
+            var imagePart = (ImagePart) img.ImagePart;
+            var mediaPart = imagePart != null ? imagePart.As<MediaPart>
+                () : default(MediaPart);
+            var url = mediaPart != null ? mediaPart.MediaUrl : default(string);
+            tagBuilder.Attributes["width"] = "200px";
+
+            if (mediaPart != null) {
+                tagBuilder.Attributes["src"] = url;
+                tagBuilder.Attributes["alt"] = mediaPart.AlternateText;
+            }
+            else {
+                tagBuilder.Attributes["alt"] = T("Image not found").Text;
+            }
+
+            <div>
+                @tagBuilder.ToHtmlString(TagRenderMode.SelfClosing)
+            </div>
+        }
+    }
+</div>
